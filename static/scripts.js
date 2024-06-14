@@ -6,7 +6,7 @@
         
         // Stacked Bar Chart for Product Types and Regions
 
-// 2. Seasonal Patterns or Trends for Order Volume or Revenue:
+// 2. Seasonal Patterns or Trends for Order Volume or Revenue: WillyNegreiros
         // Line Chart for Monthly Order Volume and Revenue
 
         // Line Chart for Monthly Order Volume
