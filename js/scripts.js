@@ -32,5 +32,57 @@
         // Box Plot for AOV Comparison
 
         // Bar Chart for AOV Comparison
-
+        // Create a D3plus bar chart
         // Violin Plot for AOV Comparison
+       
+
+        document.addEventListener("DOMContentLoaded", function() {
+                fetch('/data')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Fetched data:', data); // Check if data is fetched correctly
+                        const transformedData = [
+                            ...data.online.map(aov => ({ "Channel": "Online", "AOV": aov })),
+                            ...data.in_store.map(aov => ({ "Channel": "In-Store", "AOV": aov }))
+                        ];
+                        console.log('Transformed data:', transformedData); // Verify data transformation
+                        new d3plus.BoxWhisker()
+                            .data(transformedData)
+                            .groupBy("Channel")
+                            .x("Channel")
+                            .y("AOV")
+                            .select("#aov-box-plot-d3plus")
+                            .render();
+                    })
+                    .catch(error => console.error('Error fetching data:', error)); // Log errors
+            });
+        
+        // Bar Chart
+        new d3plus.BarChart()
+        .data(transformedData)
+        .groupBy("Channel")
+        .x("Channel")
+        .y("AOV")
+        .select("#aov-bar-chart-d3plus")
+        .render
+
+        // Box Plot for AOV Comparison
+            new d3plus.BoxWhisker()
+                .data(transformedData)
+                .groupBy("Channel")
+                .x("Channel")
+                .y("AOV")
+                .select("#aov-box-plot-d3plus")
+                .render();
+        
+            
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
