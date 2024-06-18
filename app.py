@@ -272,7 +272,6 @@ def aov_violin_comparison():
         'online': sales[sales['sale_type'] == 'online']['total_price'].tolist(),
         'in_store': sales[sales['sale_type'] == 'in_store']['total_price'].tolist()
     }
-    
     return jsonify(data)
 
 @app.route('/index')
