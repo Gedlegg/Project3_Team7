@@ -359,21 +359,3 @@ def aov_violin_comparison():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-@app.route('/data')
-def get_data():
-# Calculate AOV for online and in-store sales
-online_aov = sales[sales['sale_type'] == 'online']['total_price']
-in_store_aov = sales[sales['sale_type'] == 'in_store']['total_price']
-
-data = {'online': online_aov.tolist(),
-'in_store': in_store_aov.tolist()
-}
-return jsonify(data)
-
-@app.route('/')
-def index():
-return render_template('index.html')
-
-if __name__ == '__main__':
-app.run(debug=True)

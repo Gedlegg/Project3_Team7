@@ -37,7 +37,7 @@
        
 
         document.addEventListener("DOMContentLoaded", function() {
-                fetch('/data')
+                fetch('/api/aov_comparison')
                     .then(response => response.json())
                     .then(data => {
                         console.log('Fetched data:', data); // Check if data is fetched correctly
