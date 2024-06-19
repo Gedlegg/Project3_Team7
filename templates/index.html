@@ -5,7 +5,7 @@
     <title>Sales Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3plus@2"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
@@ -65,8 +65,9 @@
             <p>Visualizations comparing the Average Order Value for online and in-store sales.</p>
         
         </div>
-        <div class="chart" id="aov-box-plot-d3plus"></div>
-                <canvas id="aovBoxPlot"></canvas>
+        <div class="chart" id="aov-box-plot" style="width:100%; max-width:600px; height:500px;"></div>
+        <canvas id="aovBoxPlot"></canvas>
+                
             </div>
             <div class="chart" id="aov-bar-chart-d3plus">
                 <canvas id="aovBarChart"></canvas>

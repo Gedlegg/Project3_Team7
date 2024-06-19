@@ -30,59 +30,137 @@
 
 // 4. Difference in Average Order Value (AOV) for Online vs. In-Store Sales:
         // Box Plot for AOV Comparison
-
+        document.addEventListener('DOMContentLoaded', async function() {
+                
+                const boxPlotCtx = document.getElementById('aovBoxPlotChart').getContext('2d');
+                const barCtx = document.getElementById('aovBarChart').getContext('2d');
+                const violinCtx = document.getElementById('aovViolinChart').getContext('2d');
+            
+                // Fetch the data from the API
+                const response = await fetch('http://127.0.0.1:5000/api/aov_violin_comparison');
+                const data = await response.json();
+                const boxPlotChart = new Chart(boxPlotCtx, {
+                        type: 'boxplot',
+                        data: {
+                            labels: ['Online', 'In Store'],
+                            datasets: [
+                                {
+                                    label: 'Online',
+                                    data: [data.online],
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'In Store',
+                                    data: [data.in_store],
+                                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Total Price (USD)'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Box Plot: Online vs In Store'
+                                }
+                            }
+                        }
+                    });
+                });
+                
         // Bar Chart for AOV Comparison
-        // Create a D3plus bar chart
-        // Violin Plot for AOV Comparison
-       
-
-        document.addEventListener("DOMContentLoaded", function() {
-                fetch('/api/aov_comparison')
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Fetched data:', data); // Check if data is fetched correctly
-                        const transformedData = [
-                            ...data.online.map(aov => ({ "Channel": "Online", "AOV": aov })),
-                            ...data.in_store.map(aov => ({ "Channel": "In-Store", "AOV": aov }))
-                        ];
-                        console.log('Transformed data:', transformedData); // Verify data transformation
-                        new d3plus.BoxWhisker()
-                            .data(transformedData)
-                            .groupBy("Channel")
-                            .x("Channel")
-                            .y("AOV")
-                            .select("#aov-box-plot-d3plus")
-                            .render();
-                    })
-                    .catch(error => console.error('Error fetching data:', error)); // Log errors
+        const barChart = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Online', 'In Store'],
+                    datasets: [{
+                        label: 'Average AOV',
+                        data: [
+                            data.average_aov.online, 
+                            data.average_aov.in_store
+                        ],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Average AOV (USD)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Average AOV: Online vs In Store'
+                        }
+                    }
+                }
             });
         
-        // Bar Chart
-        new d3plus.BarChart()
-        .data(transformedData)
-        .groupBy("Channel")
-        .x("Channel")
-        .y("AOV")
-        .select("#aov-bar-chart-d3plus")
-        .render
-
-        // Box Plot for AOV Comparison
-            new d3plus.BoxWhisker()
-                .data(transformedData)
-                .groupBy("Channel")
-                .x("Channel")
-                .y("AOV")
-                .select("#aov-box-plot-d3plus")
-                .render();
-        
-            
-                
-        
-        
-        
-        
-        
-        
-        
-        
+        // Violin Plot for AOV Comparison
+        const violinChart = new Chart(violinCtx, {
+                type: 'violin',
+                data: {
+                    labels: ['Online', 'In Store'],
+                    datasets: [
+                        {
+                            label: 'Online',
+                            data: data.online,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                            pointRadius: 0,
+                        },
+                        {
+                            label: 'In Store',
+                            data: data.in_store,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1,
+                            pointRadius: 0,
+                        }
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Total Price (USD)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'AOV Comparison: Online vs In Store'
+                        }
+                    }
+                }
+            });
         
