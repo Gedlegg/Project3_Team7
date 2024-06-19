@@ -679,15 +679,4 @@ document.addEventListener("DOMContentLoaded", function() {
                 .y("AOV")
                 .select("#aov-box-plot-d3plus")
                 .render();
-        
-            
-                
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        }
