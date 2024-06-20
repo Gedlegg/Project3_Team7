@@ -727,45 +727,55 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         
         // Violin Plot for AOV Comparison
-        const violinChart = new Chart(violinCtx, {
-                type: 'violin',
-                data: {
-                    labels: ['Online', 'In Store'],
-                    datasets: [
-                        {
-                            label: 'Online',
-                            data: data.online,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1,
-                            pointRadius: 0,
-                        },
-                        {
-                            label: 'In Store',
-                            data: data.in_store,
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            borderWidth: 1,
-                            pointRadius: 0,
-                        }
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Total Price (USD)'
-                            }
-                        }
-                    },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'AOV Comparison: Online vs In Store'
-                        }
-                    }
-                }
+       
+
+        document.addEventListener("DOMContentLoaded", function() {
+                fetch('/api/aov_comparison')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Fetched data:', data); // Check if data is fetched correctly
+                        const transformedData = [
+                            ...data.online.map(aov => ({ "Channel": "Online", "AOV": aov })),
+                            ...data.in_store.map(aov => ({ "Channel": "In-Store", "AOV": aov }))
+                        ];
+                        console.log('Transformed data:', transformedData); // Verify data transformation
+                        new d3plus.BoxWhisker()
+                            .data(transformedData)
+                            .groupBy("Channel")
+                            .x("Channel")
+                            .y("AOV")
+                            .select("#aov-box-plot-d3plus")
+                            .render();
+                    })
+                    .catch(error => console.error('Error fetching data:', error)); // Log errors
             });
+        
+        // Bar Chart
+        new d3plus.BarChart()
+        .data(transformedData)
+        .groupBy("Channel")
+        .x("Channel")
+        .y("AOV")
+        .select("#aov-bar-chart-d3plus")
+        .render
+
+        // Box Plot for AOV Comparison
+            new d3plus.BoxWhisker()
+                .data(transformedData)
+                .groupBy("Channel")
+                .x("Channel")
+                .y("AOV")
+                .select("#aov-box-plot-d3plus")
+                .render();
+        
+            
+                
+        
+        
+        
+        
+        
+        
+        
+        
         
