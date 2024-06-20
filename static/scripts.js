@@ -30,132 +30,162 @@
 
 // 4. Difference in Average Order Value (AOV) for Online vs. In-Store Sales:
         // Box Plot for AOV Comparison
-        document.addEventListener('DOMContentLoaded', async function() {
-            const boxPlotCtx = document.getElementById('aov-box-plot').getContext('2d');
-            const barCtx = document.getElementById('aov-bar-chart').getContext('2d');
-            const violinCtx = document.getElementById('aov-violin-plot').getContext('2d');
-                
-        // Fetch the data from the API for the box plot and bar chart
-        const responseAOV = await fetch('/api/aov_comparison');
-        const dataAOV = await responseAOV.json();
-
-        // Fetch data from the API for the violin plot
-        const responseViolin = await fetch('/api/aov_violin_comparison');
-        const dataViolin = await responseViolin.json();
-            
-        // Box Plot
-        new Chart(boxPlotCtx, {
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/api/aov_comparison')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Fetched data for box plot:', data);
+        
+            const boxPlotData = [
+                        { x: 'Online', y: data.online },
+                        { x: 'In-Store', y: data.in_store }
+                    ];
+        
+            const ctx = document.getElementById('aovBoxPlot').getContext('2d');
+            new Chart(ctx, {
             type: 'boxplot',
             data: {
-                labels: ['Online', 'In Store'],
-                datasets: [
-                    {
-                        label: 'Online',
-                        data: dataViolin.online,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'In Store',
-                        data: dataViolin.in_store,
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
-                    }
-                ]
-            },
-            options: {
+            labels: ['Online', 'In-Store'],
+            datasets: [{
+            label: 'AOV Distribution',
+            data: boxPlotData,
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+                            }]
+                        },
+                options: {
                 scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Total Price (USD)'
+                    x: {
+                title: {
+                display: true,
+                text: 'Sales Type'
                         }
-                    }
-                },
+                        },
+                y: {
+                title: {
+                display: true,
+                text: 'Order Value (USD)'
+                        }
+                        }
+                        },
                 plugins: {
-                    title: {
-                        display: true,
-                        text: 'Box Plot: Online vs In Store'
-                    }
-                }
-            }
+                title: {
+                display: true,
+                text: 'Box Plot: AOV for Online vs. In-Store Sales'
+                        }
+                        }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching data for box plot:', error));
         });
+        
+
         // Bar Chart for AOV Comparison
-        new Chart(barCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Online', 'In Store'],
-                datasets: [{
-                    label: 'Average AOV',
-                    data: [dataAOV.online_avg, dataAOV.in_store_avg],
-                    backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
-                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Average AOV (USD)'
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/api/aov_comparison')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Fetched data for bar chart:', data);
+        
+                    const ctx = document.getElementById('aovBarChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Online', 'In-Store'],
+                            datasets: [{
+                                label: 'Average Order Value',
+                                data: [data.online_avg, data.in_store_avg],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(75, 192, 192, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Sales Type'
+                                    }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Average Order Value (USD)'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Bar Chart: Average Order Value by Sales Type'
+                                }
+                            }
                         }
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Average AOV: Online vs In Store'
-                    }
-                }
-            }
+                    });
+                })
+                .catch(error => console.error('Error fetching data for bar chart:', error));
         });
+        
     
     
         // Violin Plot for AOV Comparison
-        new Chart(violinCtx, {
-            type: 'violin',
-            data: {
-                labels: ['Online', 'In Store'],
-                datasets: [
-                    {
-                        label: 'Online',
-                        data: dataViolin.online,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1,
-                        pointRadius: 0
-                    },
-                    {
-                        label: 'In Store',
-                        data: dataViolin.in_store,
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1,
-                        pointRadius: 0
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Total Price (USD)'
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/api/aov_comparison')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Fetched data for violin plot:', data);
+        
+                    const violinPlotData = [
+                        { x: 'Online', y: data.online },
+                        { x: 'In-Store', y: data.in_store }
+                    ];
+        
+                    const ctx = document.getElementById('aovViolinPlot').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'violin',
+                        data: {
+                            labels: ['Online', 'In-Store'],
+                            datasets: [{
+                                label: 'AOV Distribution',
+                                data: violinPlotData,
+                                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                                borderColor: 'rgba(153, 102, 255, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Sales Type'
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Order Value (USD)'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Violin Plot: AOV Distribution by Sales Type'
+                                }
+                            }
                         }
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'AOV Comparison: Online vs In Store'
-                    }
-                }
-            }
+                    });
+                })
+                .catch(error => console.error('Error fetching data for violin plot:', error));
         });
-    });        
+        
