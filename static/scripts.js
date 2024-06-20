@@ -9,25 +9,26 @@
 // 2. Seasonal Patterns or Trends for Order Volume or Revenue:
 
 document.addEventListener("DOMContentLoaded", function() {
-        fetch('/api/monthly_order_revenue')
-            .then(response => response.json())
-            .then(data => {
-                console.log('Fetched data:', data); // Check if data is fetched correctly
-                const transformedData = [
-                    ...data.online.map(aov => ({ "Channel": "Online", "AOV": aov })),
-                    ...data.in_store.map(aov => ({ "Channel": "In-Store", "AOV": aov }))
-                ];
-                console.log('Transformed data:', transformedData); // Verify data transformation
-                new d3plus.BoxWhisker()
-                    .data(transformedData)
-                    .groupBy("Channel")
-                    .x("Channel")
-                    .y("AOV")
-                    .select("#line-chart-d3plus")
-                    .render();
-            })
-            .catch(error => console.error('Error fetching data:', error)); // Log errors
-    });
+    fetch('/api/monthly_order_revenue')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Fetched data:', data); // Check if data is fetched correctly
+
+            // Transform the data if necessary
+            const transformedData = data.map(d => ({
+                month: new Date(d.year, d.month - 1), // Adjust month to be 0-indexed
+                order_volume: d.order_volume,
+                revenue: d.revenue
+            }));
+
+            console.log('Transformed data:', transformedData); // Verify data transformation
+
+            // Render the line chart
+            renderLineChart(transformedData);
+        })
+        .catch(error => console.error('Error fetching data:', error)); // Log errors
+});
+
         // Line Chart for Monthly Order Volume and Revenue
         function renderLineChart(data) {
                 const margin = { top: 50, right: 50, bottom: 50, left: 50 };
@@ -769,13 +770,4 @@ document.addEventListener("DOMContentLoaded", function() {
                 .render();
         
             
-                
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        }
