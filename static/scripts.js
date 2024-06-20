@@ -53,37 +53,37 @@
             borderColor: 'rgba(54, 162, 235, 1)',
                             }]
                         },
-                options: {
-                scales: {
-                    x: {
-                title: {
-                display: true,
-                text: 'Sales Type'
+            options: {
+            scales: {
+            x: {
+            title: {
+            display: true,
+            text: 'Sales Type'
                         }
                         },
-                y: {
-                title: {
-                display: true,
-                text: 'Order Value (USD)'
+            y: {
+            title: {
+            display: true,
+            text: 'Order Value (USD)'
                         }
                         }
                         },
-                plugins: {
-                title: {
-                display: true,
-                text: 'Box Plot: AOV for Online vs. In-Store Sales'
+            plugins: {
+            title: {
+            display: true,
+            text: 'Box Plot: AOV for Online vs. In-Store Sales'
                         }
                         }
                         }
                     });
                 })
-                .catch(error => console.error('Error fetching data for box plot:', error));
+        .catch(error => console.error('Error fetching data for box plot:', error));
         });
         
 
         // Bar Chart for AOV Comparison
         document.addEventListener("DOMContentLoaded", function() {
-            fetch('/api/aov_comparison')
+        fetch('/api/aov_comparison')
                 .then(response => response.json())
                 .then(data => {
                     console.log('Fetched data for bar chart:', data);
@@ -132,7 +132,7 @@
                         }
                     });
                 })
-                .catch(error => console.error('Error fetching data for bar chart:', error));
+            .catch(error => console.error('Error fetching data for bar chart:', error));
         });
         
     
@@ -153,22 +153,22 @@
                     new Chart(ctx, {
                         type: 'violin',
                         data: {
-                            labels: ['Online', 'In-Store'],
-                            datasets: [{
-                                label: 'AOV Distribution',
-                                data: violinPlotData,
-                                backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                                borderColor: 'rgba(153, 102, 255, 1)',
-                                borderWidth: 1
+                        labels: ['Online', 'In-Store'],
+                        datasets: [{
+                        label: 'AOV Distribution',
+                        data: violinPlotData,
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
                             }]
                         },
                         options: {
-                            scales: {
-                                x: {
-                                    title: {
-                                        display: true,
-                                        text: 'Sales Type'
-                                    }
+                        scales: {
+                        x: {
+                        title: {
+                        display: true,
+                        text: 'Sales Type'
+                                }
                                 },
                                 y: {
                                     title: {
@@ -178,14 +178,14 @@
                                 }
                             },
                             plugins: {
-                                title: {
-                                    display: true,
-                                    text: 'Violin Plot: AOV Distribution by Sales Type'
+                            title: {
+                            display: true,
+                            text: 'Violin Plot: AOV Distribution by Sales Type'
                                 }
                             }
                         }
                     });
                 })
-                .catch(error => console.error('Error fetching data for violin plot:', error));
+            .catch(error => console.error('Error fetching data for violin plot:', error));
         });
         
