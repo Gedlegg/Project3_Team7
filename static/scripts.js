@@ -30,132 +30,159 @@
 
 // 4. Difference in Average Order Value (AOV) for Online vs. In-Store Sales:
         // Box Plot for AOV Comparison
-        document.addEventListener('DOMContentLoaded', async function() {
-            const boxPlotCtx = document.getElementById('aov-box-plot').getContext('2d');
-            const barCtx = document.getElementById('aov-bar-chart').getContext('2d');
-            const violinCtx = document.getElementById('aov-violin-plot').getContext('2d');
-                
-        // Fetch the data from the API for the box plot and bar chart
-        const responseAOV = await fetch('/api/aov_comparison');
-        const dataAOV = await responseAOV.json();
+        fetch('/api/aov_comparison_revenue')
+    .then(response => response.json())
+    .then(data => {
+        const trace1 = {
+            y: data.in_store,
+            type: 'box',
+            name: 'In-Store',
+            boxpoints: 'all' // Display individual data points
+        };
 
-        // Fetch data from the API for the violin plot
-        const responseViolin = await fetch('/api/aov_violin_comparison');
-        const dataViolin = await responseViolin.json();
-            
-        // Box Plot
-        new Chart(boxPlotCtx, {
-            type: 'boxplot',
-            data: {
-                labels: ['Online', 'In Store'],
-                datasets: [
-                    {
-                        label: 'Online',
-                        data: dataViolin.online,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'In Store',
-                        data: dataViolin.in_store,
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
-                    }
-                ]
+        const trace2 = {
+            y: data.online,
+            type: 'box',
+            name: 'Online',
+            boxpoints: 'all' // Display individual data points
+        };
+
+        const layout = {
+            title: 'AOV Comparison by Revenue - Box and Whisker Chart',
+            yaxis: {
+                title: 'Total Revenue'
             },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Total Price (USD)'
-                        }
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Box Plot: Online vs In Store'
-                    }
-                }
+            xaxis: {
+                title: 'Sales Channel'
             }
-        });
+        };
+
+        const plotData = [trace1, trace2];
+        Plotly.newPlot('aovBoxPlot', plotData, layout);
+    })
+    // .catch(error => console.error('Error fetching and plotting data:', error));
+        
         // Bar Chart for AOV Comparison
-        new Chart(barCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Online', 'In Store'],
-                datasets: [{
-                    label: 'Average AOV',
-                    data: [dataAOV.online_avg, dataAOV.in_store_avg],
-                    backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
-                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Average AOV (USD)'
-                        }
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Average AOV: Online vs In Store'
-                    }
-                }
-            }
-        });
+        // fetch('/api/aov_comparison_revenue')
+        // .then(response => response.json())
+        // .then(data => {
+        //     // Prepare traces for each sale_type
+        //     const traces = [];
+        //     Object.keys(data).forEach(saleType => {
+        //         const trace = {
+        //             x: data[saleType],
+        //             type: 'box',
+        //             name: saleType,
+        //             boxpoints: 'all' // Display individual data points
+        //         };
+        //         traces.push(trace);
+        //     });
     
+        //     const layout = {
+        //         title: 'AOV Comparison by Revenue - Box and Whisker Chart',
+        //         yaxis: {
+        //             title: 'Total Revenue'
+        //         },
+        //         xaxis: {
+        //             title: 'Sales Channel'
+        //         }
+        //     };
     
-        // Violin Plot for AOV Comparison
-        new Chart(violinCtx, {
-            type: 'violin',
-            data: {
-                labels: ['Online', 'In Store'],
-                datasets: [
-                    {
-                        label: 'Online',
-                        data: dataViolin.online,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1,
-                        pointRadius: 0
-                    },
-                    {
-                        label: 'In Store',
-                        data: dataViolin.in_store,
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1,
-                        pointRadius: 0
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Total Price (USD)'
-                        }
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'AOV Comparison: Online vs In Store'
-                    }
-                }
-            }
+        //     // Plot the chart
+        //     Plotly.newPlot('aovBarChart', traces, layout);
+        // })
+        // .catch(error => console.error('Error fetching and plotting data:', error));
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/api/aov_comparison_revenue')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    let years = data.years;
+                    let onlineData = data.online;
+                    let inStoreData = data.in_store;
+        
+                    let trace1 = {
+                        x: years,
+                        y: inStoreData,
+                        type: 'bar',
+                        name: 'In-Store',
+                        marker: { color: 'rgba(55, 128, 191, 0.7)' }
+                    };
+        
+                    let trace2 = {
+                        x: years,
+                        y: onlineData,
+                        type: 'bar',
+                        name: 'Online',
+                        marker: { color: 'rgba(219, 64, 82, 0.7)' }
+                    };
+        
+                    let layout = {
+                        title: 'AOV Comparison by Revenue',
+                        xaxis: { title: 'Year' },
+                        yaxis: { title: 'Total Revenue' },
+                        barmode: 'group'
+                    };
+        
+                    let chartData = [trace1, trace2];
+                    Plotly.newPlot('aovBarChart', chartData, layout);
+                })
+                .catch(error => {
+                    console.error('Error fetching and plotting data:', error);
+                });
         });
-    });        
+      
+        
+        
+        fetch('/api/aov_comparison_revenue')
+    .then(response => response.json())
+    .then(data => {
+        // Prepare data for Plotly Violin Plot
+        const plotData = [
+            {
+                y: data.online,
+                type: 'violin',
+                name: 'Online',
+                marker: { color: 'rgba(153, 102, 255, 0.5)' },
+                box: { visible: true },
+                meanline: { visible: true },
+                line: { color: 'rgba(153, 102, 255, 1)' }
+            },
+            {
+                y: data.in_store,
+                type: 'violin',
+                name: 'In-Store',
+                marker: { color: 'rgba(255, 102, 102, 0.5)' },
+                box: { visible: true },
+                meanline: { visible: true },
+                line: { color: 'rgba(255, 102, 102, 1)' }
+            }
+        ];
+
+        // Layout options for the plot
+        const layout = {
+            title: 'AOV Distribution by Sales Channel',
+            yaxis: {
+                title: 'Average Order Value (AOV)',
+                zeroline: false
+            },
+            xaxis: {
+                title: 'Sales Channel'
+            },
+            margin: {
+                l: 50,
+                r: 50,
+                b: 100,
+                t: 100,
+                pad: 4
+            },
+            showlegend: true
+        };
+
+        // Render the Plotly Violin Plot
+        Plotly.newPlot('aovViolinPlot', plotData, layout);
+    })
+    .catch(error => {
+        console.error('Error fetching and plotting data:', error);
+    });
+    
