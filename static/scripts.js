@@ -81,6 +81,28 @@
         });
         
 
+        const trace2 = {
+            y: data.online,
+            type: 'box',
+            name: 'Online',
+            boxpoints: 'all' // Display individual data points
+        };
+
+        const layout = {
+            title: 'AOV Comparison by Revenue - Box and Whisker Chart',
+            yaxis: {
+                title: 'Total Revenue'
+            },
+            xaxis: {
+                title: 'Sales Channel'
+            }
+        };
+
+        const plotData = [trace1, trace2];
+        Plotly.newPlot('aovBoxPlot', plotData, layout);
+    
+    // .catch(error => console.error('Error fetching and plotting data:', error));
+        
         // Bar Chart for AOV Comparison
         document.addEventListener("DOMContentLoaded", function() {
         fetch('/api/aov_comparison')
