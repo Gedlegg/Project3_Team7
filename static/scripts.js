@@ -343,7 +343,7 @@ function updateRevenueChart(year) {
     });
 
     let layout = {
-        title: `Tend of Revenue Distribution for ${year}`,
+        title: `Trend of Revenue Distribution for ${year}`,
         xaxis: { title: 'Month' },
         yaxis: { title: 'Revenue', color: 'gray' }
     };
