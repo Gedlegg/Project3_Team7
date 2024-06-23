@@ -5,7 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Home:API</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -41,19 +43,40 @@
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container">
-                <a class="navbar-brand" href="/">Home</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                    
-                    </ul>
-                </div>
+           <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="col-sm-2 col-xs-7 navbar-header">
+                <span class="logobox">
+                  <a id="logo" href="index#"
+                    ><img src="./static/image/logo4.png" alt=""
+                  /></a> </span
+                ><!--/.logobox-->
+              </div>
+            <a class="navbar-brand" href="#">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/index#">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Explore
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="/product">Product Analysis</a></li>
+                            <li><a class="dropdown-item" href="/revenue">Revenue Analysis</a></li>
+                            <li><a class="dropdown-item" href="/delivery">Delivery Analysis</a></li>
+                            <li><a class="dropdown-item" href="/order">Order Analysis</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
         <div class="container">
             <h1>Welcome to the Global Electronics Retailers Home Page</h1>
       
@@ -64,21 +87,31 @@
             <ul>
                 <li><a href="/api/product_distribution">/api/product_distribution</a> - Get product distribution data</li>
                 <li><a href="/api/customer_locations">/api/customer_locations</a> - Get customer location data</li>
+                <li><a href="/api/customer_locations_cluster">/api/customer_locations_cluster</a> - Get customer location data</li>
+                <li><a href="/api/store_location">/api/store_location</a> - Get Store location data</li>
                 <li><a href="/api/product_region_distribution">/api/product_region_distribution</a> - Get product region distribution data</li>
                 <li><a href="/api/monthly_order_revenue">//api/monthly_order_revenue</a> - Get order volume by revenue distribution data</li>
                 <li><a href="/api/monthly_order_volume">/api/monthly_order_volume</a> - Get monthly order volume data</li>
                 <li><a href="/api/monthly_revenue">/api/monthly_revenue</a> - Get monthly revenue data</li>
                 <li><a href="/api/monthly_order_heatmap">/api/monthly_order_heatmap</a> - Get monthly order heatmap data</li>
                 <li><a href="/api/monthly_revenue_heatmap">/api/monthly_revenue_heatmap</a> - Get monthly revenue heatmap data</li>
+                <li><a href="/api/yearly_order_distribution">/api/yearly_order_distribution</a> - Get yearly order distribution data</li>
                 <li><a href="/api/seasonal_order_distribution">/api/seasonal_order_distribution</a> - Get seasonal order distribution data</li>
+                <li><a href="/api/yearly_revenue_distribution">/api/yearly_revenue_distribution</a> - Get yearly revenue distribution data</li>
                 <li><a href="/api/seasonal_revenue_distribution">/api/seasonal_revenue_distribution</a> - Get seasonal revenue distribution data</li>
                 <li><a href="/api/average_delivery_time">/api/average_delivery_time</a> - Get average delivery time data</li>
                 <li><a href="/api/delivery_time_distribution">/api/delivery_time_distribution</a> - Get delivery time distribution data</li>
                 <li><a href="/api/delivery_time_scatter">/api/delivery_time_scatter</a> - Get delivery time scatter data</li>
-                <li><a href="/api/aov_comparison">/api/aov_comparison</a> - Get AOV comparison data</li>
+                <li><a href="/api/aov_comparison_count">/api/aov_comparison_count</a> - Get AOV comparison by count data</li>
+                <li><a href="/api/aov_comparison_revenue">/api/aov_comparison_revenue</a> - Get AOV comparison by revenue data</li>
                 <li><a href="/api/aov_violin_comparison">/api/aov_violin_comparison</a> - Get AOV violin comparison data</li>
+                <li><a href="/api/available_years">/api/available_years</a> - Get available years data</li>
             </ul>
-            
+           
         </div>
+    
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     </body>
     </html>
