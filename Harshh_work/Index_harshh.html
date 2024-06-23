@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scatter Plot</title>
+  <link rel="stylesheet" href="css/styles.css">    <!-- -------------------------------------------------------------------------- -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+  <div  id="question3">
+    <h2>Average Delivery Time (in Days) Over Time</h2>
+    <p>Visualizations showing the average delivery time over different periods and for different regions.</p>
+    <select id="SelectRegion">
+      <option value="All Regions">All Regions</option>
+      <option value="AUD">Australia</option>
+      <option value="CAD">Canada</option>
+      <option value="EUR">Europe</option>
+      <option value="GBP">UK</option>
+      <option value="USD">USA</option>
+    </select>
+    <div class="chart" id="avg-delivery-line-chart">
+        <!-- <canvas id="deliveryTimeLineChart"></canvas> -->
+    </div>
+    <h2>Visualizations showing Product-wise Delivery Times</h2>
+    <div>
+      <button onclick="updateChart('Top', 10)">Top 10</button>
+      <button onclick="updateChart('Top', 20)">Top 20</button>
+      <button onclick="updateChart('Top', 50)">Top 50</button>
+      <button onclick="updateChart('Top', 100)">Top 100</button>
+      <button onclick="updateChart('Bottom', 10)">Bottom 10</button>
+      <button onclick="updateChart('Bottom', 20)">Bottom 20</button>
+      <button onclick="updateChart('Bottom', 50)">Bottom 50</button>
+      <button onclick="updateChart('Bottom', 100)">Bottom 100</button>
+    </div>
+    <div>
+      <input type="text" id="product-input" placeholder="Enter a product name to see its average delivery time" oninput="showSuggestions(this.value)">
+      <div id="suggestions"></div>
+    </div>
+    <div class="chart" id="product-wise-chart">
+        <!-- <canvas id="deliveryTimeHistogram"></canvas> -->
+    </div>
+    <!-- <div class="chart" id="delivery-scatter-plot">
+        <canvas id="deliveryTimeScatterPlot"></canvas>
+    </div> -->
+</div>
+  
+<script src="./static/scripts.js"></script>
+
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+</body>
+</html>
