@@ -258,8 +258,9 @@ canvas {
 .gg1 p{
     text-align: center;
     margin: auto;
-    color:white;
+    color:rgb(9, 9, 9);
     font-size: 16px;
+    font-weight: bolder;
 }
 
 .gg2{
