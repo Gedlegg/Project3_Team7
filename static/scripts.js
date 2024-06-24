@@ -785,7 +785,7 @@
                 });
 
                 let layout = {
-                    title: 'Stores Location by Revenue',
+                    title: 'Top Stores by Revenue',
                     barmode: 'stack',
                     xaxis: { title: 'Country', tickangle: -45 },
                     yaxis: {
@@ -1196,7 +1196,7 @@ function updateRevenueChart(year) {
     });
 
     let layout = {
-        title: `Trend of Revenue Distribution for ${year}`,
+        title: `Tend of Revenue Distribution for ${year}`,
         xaxis: { title: 'Month' },
         yaxis: { title: 'Revenue', color: 'gray' }
     };
@@ -1473,7 +1473,7 @@ document.getElementById('yearSelector').addEventListener('change', function() {
             };
         
             let layout = {
-                title: 'Average Order Volume Distribution by Sales Channel',
+                title: 'Average Order Volume by Sales Channel',
                 yaxis: {
                     title: 'Order Volume',
                     color: 'gray'
@@ -1523,7 +1523,7 @@ document.getElementById('yearSelector').addEventListener('change', function() {
                     };
         
                     let layout = {
-                        title: 'Revenue Comparison by Sales Channel Across Years',
+                        title: 'Seasonal Revenue Distribution by Sales Channel Comparison',
                         xaxis: { title: 'Year' },
                         yaxis: { title: 'Total Revenue', color: 'gray'},
                         barmode: 'group'
@@ -1600,7 +1600,7 @@ document.getElementById('yearSelector').addEventListener('change', function() {
             ];
         
             let layout = {
-                title: 'Revenue Distribution by Sales Channel',
+                title: 'Revenue by Sales Channel Comparison',
                 yaxis: {
                     title: 'Total Revenue',
                     color: 'gray',
