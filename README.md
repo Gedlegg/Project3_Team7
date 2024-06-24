@@ -7,104 +7,120 @@ This repository contains the code and documentation for various analyses perform
 ## Table of Contents
 
 1. Analysis and Visualization
-2. Use Cases and Analysis Contributions
+2. Project Collaborators
 3. File Structure
-4. Complete Work Cited
+4. Prerequisites
+5. Running the Dashboard
+6. Usage
+7. Links for Data Source and Citations
 
 ## Analysis and Visualization
 
-### Product Revenue Distribution, Customer Location, and Revenue by Store Location Analysis
+* **Product Performance**: Evaluate the performance of different products across various regions.
+* **Customer Insights**: Analyze customer demographics and purchasing patterns.
+* **Store Analysis**: Assess the performance of stores based on location and other factors.
+* **Time Series Analysis**: Track sales and revenue trends over different periods.
+* **Product wise Delivery Times**: Assess product-wise average delivery time over different periods and for different regions.
+* **Sales Channel Comparison**: Compare revenue and order volume between different sales channels (online vs. in-store).
 
-**Tasked for Gedlegeorgis Geda**
+## Project Collaborators
 
-#### Tools Used
+###### Product Revenue Distribution, Customer Location, and Revenue by Store Location Analysis
 
-* **Stacked Bar Chart:** Visualizes revenue distribution by product category and subcategory.
-* **Geographic Cluster and Marker Maps:** Uncover geographic insights of customer locations.
-* **Gender Distribution Pie Charts:** Illustrates gender distribution across various regions.
-* **Top and Bottom Performing Stores Table:** Shows the best and worst-performing stores.
+* Contributor for Gedlegeorgis Geda
+* Tools: Stacked column chart, Geographic cluster and marker maps, Gender distribution pie charts, Stacked column chart.
 
-### Seasonal Patterns or Trends Analysis
+###### Seasonal Patterns or Trends Analysis
 
-**Tasked for Willy Negreiros**
+* Contributor Willy Negreiros
+* Tools: Line charts, Heat maps, Box plots.
 
-#### Tools Used
+###### Average Delivery Time (in Days) Over Time
 
-* **Line Charts:** Visualize trends in order volume and revenue by year.
-* **Heat Maps:** Show order volume and revenue distributions over months and years.
-* **Box Plots:** Compare revenues and order volumes across seasons or months.
+* Contributor Harshh Patel
+* Tools: Line chart, Bar chart.
 
-### Average Delivery Time in Days Over Time
+###### Sales Channel Analysis
 
-**Tasked for Harshh Patel**
-
-#### Tools Used
-
-* **Line Charts:** Track changes in average delivery time over time.
-* **Bar Chart:** Product wise delivery time.
-
-### Sales Channel Analysis
-
-**Tasked for Suad Godax**
-
-#### Tools Used
-
-* **Box Plots:** Compare average order volumes by sales channel.
-* **Bar Charts:** Visualize seasonal revenue distribution by sales channel.
-* **Violin Plots:** Compare revenue distributions by sales channel.
+* Contributor Suad Godax
+* Tools: Box plot, Cluster column chart, Violin plot.
 
 ## File Structure
 
-Global Electronic-data-analysis/
-│
-├── Output/
-│   ├── customers.csv
-│   ├── products.csv
-│   ├── stores.csv
-│   └── sales.csv
-│
-├── Resource/
-│   ├── Customers_with_coordinates.csv
-│   ├── Customers.csv
-│   ├── lon_lan.csv
-│   ├── Products.csv
-│   ├── Sales.csv
-│   └── Stores.csv
-│
-├── Static/
-│   ├── css/styles.css
-│   ├── image/bg5.jpg
-│   ├── image/logo4.png
-│   └── scripts.js
-│
+###### Output
 
-├── templates/
-│   ├── api.html
-│   ├── cover.html
-│   ├── gg1.html
-│   ├── gg2.html
-│   ├── gg3.html
-│   ├── willy1.html
-│   ├── willy2.html
-│   ├── willy3.html
-│   ├── harshh1.html
-│   ├── harshh2.html
-│   ├── suad1.html
-│   ├── suad2.html
-│   ├── home.html
-│   └── index.html
-│
-├── .gitignore
-├── app.py
-├── config.py
-├── data.ipynb
-├── Project 3 Presentation.ppt
-├── sales_dashboard.sqlite
-└── README.md
+- `customers.csv`: Processed customer data.
+- `products.csv`: Processed product data.
+- `stores.csv`: Processed store data.
+- `sales.csv`: Processed sales data.
 
-# Dependencies/Installallations
+###### Resource
 
-Dependencies to view the visualizations require the user to download and install Flask and all its dependencies like Flask, request, jsonify, render_template, and other python librarie like sqlite3, pandas, numpy, random.
+- `Customers_with_coordinates.csv`: Raw customer data with coordinates.
+- `Customers.csv`: Raw customer data.
+- `lon_lan.csv`: Longitude and latitude data.
+- `Products.csv`: Raw product data.
+- `Sales.csv`: Raw sales data.
+- `Stores.csv`: Raw store data.
+
+###### Static
+
+- `css/styles.css`: Stylesheets for the dashboard.
+- `image/bg5.jpg`: Background image used in the dashboard.
+- `image/logo4.png`: Logo image used in the dashboard.
+- `scripts.js`: JavaScript file for the dashboard's interactive features.
+
+###### Templates
+
+- `api.html`: Template for API documentation.
+- `cover.html`: Cover page template.
+- `gg1.html`: Template for a specific analysis (replace with actual description).
+- `gg2.html`: Template for a specific analysis (replace with actual description).
+- `gg3.html`: Template for a specific analysis (replace with actual description).
+- `willy1.html`: Template for a specific analysis (replace with actual description).
+- `willy2.html`: Template for a specific analysis (replace with actual description).
+- `willy3.html`: Template for a specific analysis (replace with actual description).
+- `harshh1.html`: Template for a specific analysis (replace with actual description).
+- `harshh2.html`: Template for a specific analysis (replace with actual description).
+- `suad1.html`: Template for a specific analysis (replace with actual description).
+- `suad2.html`: Template for a specific analysis (replace with actual description).
+- `home.html`: Home page template.
+- `index.html`: Main index page for the dashboard.
+
+###### Root Directory
+
+- `.gitignore`: Git ignore file specifying files and directories to be ignored by Git.
+- `app.py`: Main application script for running the Flask server.
+- `config.py`: Configuration file for the Flask application.
+- `data.ipynb`: Jupyter Notebook containing data processing and analysis scripts.
+- `Project 3 Presentation.ppt`: Project presentation file.
+- `sales_dashboard.sqlite`: SQLite database file containing processed data.
+- `README.md`: This README file.
+
+## Prerequisites
+
+To view the visualizations require the user to
+
+- ensure you have Python installed on your system.
+- install Flask and all its dependencies like request, jsonify, render_template, and other python librarie like sqlite3, pandas, numpy, random.
+
+## Running the Dashboard
+
+1. Clone this repository to your local machine.
+2. Navigate to the project directory
+3. Start the Flask serve
+4. Open your web browser and go to `http://127.0.0.1:5000` to view the dashboard.
+
+## Usage
+
+* **Year Selection:**
+  * Use the year selector to choose the year for which you want to view the data.
+  * The plots will update automatically based on the selected year.
+* **Sales Channel Comparison:**
+  * The bar chart provides a comparison of revenue between in-store and online sales across different years.
+* **Average Delivery Times:**
+  * The line plot shows the trend in delivery times over the months.
+  * Use the region selector to filter the data by specific regions..
 
 # Links for Data Source and Citations
 
@@ -118,3 +134,5 @@ https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_sidenav_fixed
 https://getbootstrap.com
 
 https://fontawesome.com
+
+https://unsplash.com/photos/pen-on-paper-6EnTPvPPL6I
