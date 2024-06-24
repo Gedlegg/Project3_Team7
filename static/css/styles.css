@@ -295,6 +295,9 @@ div#gigi{
   .navbar .container h1{
     margin: auto;
   }
+  nav.navbar {
+    align-items: block;
+  }
   .navbar .dropdownCol{
     display: flex;
   }
