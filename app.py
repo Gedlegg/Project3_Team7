@@ -435,27 +435,33 @@ def seasonal_revenue_distribution():
 
 # Line Chart for Average Delivery Time
 @app.route('/api/average_delivery_time')
-def average_delivery_time():
+def average_delivery_time(): # <WHERE store_id == 0 AND line_item == 1> to fetch only online orders and only one line item (one row of data) for a particular order_number
     query = """
-    SELECT strftime('%Y-%m', order_date) as Month, AVG(julianday(delivery_date) - julianday(order_date)) as AvgDeliveryTime
+    SELECT strftime('%Y-%m-%d', order_date) as o_date,
+           strftime('%Y-%m', order_date) as o_month,
+           julianday(delivery_date) - julianday(order_date) as DeliveryTime,
+           currency_code as Currency
     FROM sales
-    GROUP BY strftime('%Y-%m', order_date)
-    ORDER BY Month
+    WHERE store_id == 0 AND line_item == 1
+    ORDER BY o_date
     """
     result = query_db(query)
-    data = {'months': [row['Month'] for row in result], 'avg_delivery_times': [row['AvgDeliveryTime'] for row in result]}
+    data = [{'Order_month': row['o_month'], 'Delivery_time': row['DeliveryTime'], 'Currency': row['Currency']} for row in result]
     return jsonify(data)
 
-# Histogram for Delivery Time Distribution
-@app.route('/api/delivery_time_distribution')
-def delivery_time_distribution():
+# Histogram for Product-wise Delivery Time
+@app.route('/api/product_wise_delivery_time')
+def product_wise_delivery_time(): # <WHERE store_id == 0> to fetch only online orders
     query = """
-    SELECT julianday(delivery_date) - julianday(order_date) as DeliveryTime
-    FROM sales
-    WHERE order_date IS NOT NULL AND delivery_date IS NOT NULL
+    SELECT sales.product_id,
+           ROUND(AVG(julianday(delivery_date) - julianday(order_date)), 2) as AvgDeliveryTime,
+           product_name
+    FROM sales JOIN products ON sales.product_id = products.product_id
+    WHERE store_id == 0
+    GROUP BY sales.product_id
     """
     result = query_db(query)
-    data = {'delivery_times': [row['DeliveryTime'] for row in result]}
+    data = [{'Product_name': row['product_name'], 'Avg_Delivery_times': row['AvgDeliveryTime']} for row in result]
     return jsonify(data)
 
 # Scatter Plot for Delivery Times Over Time
@@ -476,6 +482,35 @@ def delivery_time_scatter():
 
 # Bar Chart for AOV Comparison
 # Count Comparison Route
+<<<<<<< HEAD
+@app.route('/api/aov_comparison_count/<year>')
+def aov_comparison_count(year):
+    if year == 'all':
+        query = """
+        SELECT 
+            CASE 
+                WHEN delivery_date IS NULL THEN 'in_store' 
+                ELSE 'online' 
+            END as sale_type,
+            COUNT(sales.order_date) as order_count
+        FROM sales
+        JOIN products ON sales.product_id = products.product_id
+        GROUP BY sale_type, order_date
+        """
+    else:
+        query = f"""
+        SELECT 
+            CASE 
+                WHEN delivery_date IS NULL THEN 'in_store' 
+                ELSE 'online' 
+            END as sale_type,
+            COUNT(sales.order_date) as order_count
+        FROM sales
+        JOIN products ON sales.product_id = products.product_id
+        WHERE strftime('%Y', order_date) = '{year}'
+        GROUP BY sale_type, order_date
+        """
+=======
 @app.route('/api/aov_comparison_count')
 def aov_comparison_count():
     query = """
@@ -489,6 +524,7 @@ def aov_comparison_count():
     JOIN products ON sales.product_id = products.product_id
     GROUP BY sale_type, order_date
     """
+>>>>>>> main
     result = query_db(query)
     
     # Convert result to DataFrame
@@ -510,6 +546,8 @@ def aov_comparison_count():
 # Revenue Comparison Route
 @app.route('/api/aov_comparison_revenue')
 def aov_comparison_revenue():
+<<<<<<< HEAD
+=======
     query = """
     SELECT 
         CASE 
@@ -555,25 +593,89 @@ def aov_comparison_revenue():
 # Violin Plot for AOV Comparison
 @app.route('/api/aov_violin_comparison')
 def aov_violin_comparison():
+>>>>>>> main
     query = """
     SELECT 
         CASE 
-            WHEN store_id IS NULL THEN 'online' 
-            ELSE 'in_store' 
+            WHEN delivery_date IS NULL THEN 'in_store' 
+            ELSE 'online' 
         END as sale_type,
-        quantity * unit_price_usd as total_price
+        strftime('%Y', sales.order_date) as year,
+        SUM(quantity * unit_price_usd) as total_revenue
     FROM sales
     JOIN products ON sales.product_id = products.product_id
+    GROUP BY sale_type, year
     """
     result = query_db(query)
     
     # Convert result to DataFrame
-    sales = pd.DataFrame(result, columns=['sale_type', 'total_price'])
+    sales = pd.DataFrame(result, columns=['sale_type', 'year', 'total_revenue'])
     
-    # Prepare data for violin plot
+    # Group by year and sale_type
+    grouped_sales = sales.groupby(['year', 'sale_type']).agg({'total_revenue': 'sum'}).reset_index()
+
+    # Separate data for online and in-store
+    online_data = grouped_sales[grouped_sales['sale_type'] == 'online'].set_index('year')['total_revenue'].tolist()
+    in_store_data = grouped_sales[grouped_sales['sale_type'] == 'in_store'].set_index('year')['total_revenue'].tolist()
+
+    # Calculate averages
+    online_avg = grouped_sales[grouped_sales['sale_type'] == 'online']['total_revenue'].mean()
+    in_store_avg = grouped_sales[grouped_sales['sale_type'] == 'in_store']['total_revenue'].mean()
+
+    # Convert NaN to None for averages
+    online_avg = online_avg if not np.isnan(online_avg) else None
+    in_store_avg = in_store_avg if not np.isnan(in_store_avg) else None
+
+    # Prepare data dictionary
     data = {
-        'online': sales[sales['sale_type'] == 'online']['total_price'].tolist(),
-        'in_store': sales[sales['sale_type'] == 'in_store']['total_price'].tolist()
+        'years': grouped_sales['year'].unique().tolist(),
+        'online': online_data,
+        'in_store': in_store_data,
+        'online_avg': online_avg,
+        'in_store_avg': in_store_avg
+    }
+    
+    return jsonify(data)
+# Violin Plot for AOV Comparison
+@app.route('/api/aov_violin_comparison/<year>')
+def aov_violin_comparison(year):
+    if year == 'all':
+        query = """
+        SELECT 
+            CASE 
+                WHEN delivery_date IS NULL THEN 'in_store' 
+                ELSE 'online' 
+            END as sale_type,
+            SUM(quantity * unit_price_usd) as total_revenue
+        FROM sales
+        JOIN products ON sales.product_id = products.product_id
+        GROUP BY sale_type, order_date
+        """
+    else:
+        query = f"""
+        SELECT 
+            CASE 
+                WHEN delivery_date IS NULL THEN 'in_store' 
+                ELSE 'online' 
+            END as sale_type,
+            SUM(quantity * unit_price_usd) as total_revenue
+        FROM sales
+        JOIN products ON sales.product_id = products.product_id
+        WHERE strftime('%Y', order_date) = '{year}'
+        GROUP BY sale_type, order_date
+        """
+    result = query_db(query)
+    
+    # Convert result to DataFrame
+    sales = pd.DataFrame(result, columns=['sale_type', 'total_revenue'])
+    
+    # Separate revenues for online and in-store
+    online_revenues = sales[sales['sale_type'] == 'online']['total_revenue'].tolist()
+    in_store_revenues = sales[sales['sale_type'] == 'in_store']['total_revenue'].tolist()
+    
+    data = {
+        'online': online_revenues,
+        'in_store': in_store_revenues
     }
     
     return jsonify(data)
@@ -581,6 +683,49 @@ def aov_violin_comparison():
 @app.route('/index')
 def index():  
     return render_template("index.html")
+@app.route('/gg1')
+def gg1():  
+    return render_template("gg1.html")
+@app.route('/gg3')
+def gg3():  
+    return render_template("gg3.html")
+@app.route('/gg2')
+def gg2():  
+    return render_template("gg2.html")
+@app.route('/suad1')
+def suad1():  
+    return render_template("suad1.html")
+@app.route('/suad2')
+def suad2():  
+    return render_template("suad2.html")
+@app.route('/suad3')
+def suad3():  
+    return render_template("suad3.html")
+@app.route('/willy1')
+def willy1():  
+    return render_template("willy1.html")
+@app.route('/willy2')
+def willy2():  
+    return render_template("willy2.html")
+@app.route('/willy3')
+def willy3():  
+    return render_template("willy3.html")
+@app.route('/harshh1')
+def harshh1():  
+    return render_template("harshh1.html")
+@app.route('/harshh2')
+def harshh2():  
+    return render_template("harshh2.html")
+@app.route('/suadg1')
+def suadg1():  
+    return render_template("suadg1.html")
+@app.route('/cover')
+def cover():  
+    return render_template("cover.html")
+@app.route('/api')
+def api():  
+    return render_template("api.html")
+
 
 @app.route('/product')
 def product():  
