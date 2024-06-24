@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Dashboard</title>
+    
+       
+    
+    <!-- Marker cluster CSS -->
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.Default.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css">
+    <link rel="stylesheet" href="css/leaflet.extra-markers.min.css">
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Sanchez" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">    
+        <!-- Marker cluster CSS -->
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.css">
+    
+</head>
+
+<body>
+
+    
+    <div class="container-fluid ">
+            <div class="row flex-nowrap ">
+                
+                <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                   <div class="col-auto sidenav col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                            <a href="cover" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                                <img src="./static/image/logo4.png" alt="" width="160" height="90">    
+                            </a>
+                            <a href="cover" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"> 
+                                <span class="fs-5 d-none d-sm-inline" style="color:#818181; margin:auto; padding:auto; " >Sales Dashboard</span>
+                            </a>
+                            <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                                <li class="nav-item">
+                                    <a href="cover" class="nav-link align-middle px-0">
+                                        <i class="fs-4 fa fa-fw fa-home bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                                    </a>
+                                </li>
+                                
+                                <li>
+                                    <a href="cover" class="nav-link px-0 align-middle">
+                                        <i class="fa fa-tachometer"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span></a>
+                                        
+                                </li>
+                                <li>
+                                    <a href="api" class="nav-link px-0 align-middle">
+                                        <i class="fa fa-server"></i> <span class="ms-1 d-none d-sm-inline">API Endpoints</span></a>
+                                        
+                                </li>
+                                <li>
+                                    <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
+                                        <i class="fa fa-list-ol"></i> <span class="ms-1 d-none d-sm-inline">Question</span> 1</a>
+                                    <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
+                                        <li class="w-100">
+                                            <a href="gg1" class="nav-link px-0"> <span class="d-none d-sm-inline">1. Stacked Column Chart</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="gg2" class="nav-link px-0"> <span class="d-none d-sm-inline">2. Cusomer Location Map</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="gg3" class="nav-link px-0"> <span class="d-none d-sm-inline">3. Stacked Column Chart</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
+                                        <i class="fa fa-list-ol"></i> <span class="ms-1 d-none d-sm-inline">Question</span> 2</a>
+                                    <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                                        <li class="w-100">
+                                            <a href="willy1" class="nav-link px-0"> <span class="d-none d-sm-inline">1. Line Chart</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="willy2" class="nav-link px-0"> <span class="d-none d-sm-inline">2. Heat map</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="willy3" class="nav-link px-0"> <span class="d-none d-sm-inline">3. Box and Whisker Chart</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#submenu4" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                        <i class="fa fa-list-ol"></i> <span class="ms-1 d-none d-sm-inline">Question</span> 3</a>
+                                        <ul class="collapse nav flex-column ms-1" id="submenu4" data-bs-parent="#menu">
+                                        <li class="w-100">
+                                            <a href="harshh1" class="nav-link px-0"> <span class="d-none d-sm-inline">1. Line Chart</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="harshh2" class="nav-link px-0"> <span class="d-none d-sm-inline">2. Bar Chart</span></a>
+                                        </li>
+                                        
+                                   
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#submenu5" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                        <i class="fa fa-list-ol"></i> <span class="ms-1 d-none d-sm-inline">Question</span> 4</a>
+                                        <ul class="collapse nav flex-column ms-1" id="submenu5" data-bs-parent="#menu">
+                                        <li class="w-100">
+                                            <a href="suad1" class="nav-link px-0"> <span class="d-none d-sm-inline">1. Box and Violin Chart</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="suad2" class="nav-link px-0"> <span class="d-none d-sm-inline">2. Cluster Column Chart</span></a>
+                                        </li>
+                                        
+                                   
+                                    </ul>
+                                </li>
+                            </ul>
+                            <hr>
+                            <div class="dropdown pb-4">
+                                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" style="color:#818181">
+                                    <i class="fa fa-cog" style="color:#818181"></i> &nbsp Settings </a>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                </div>
+                </div>
+             
+                <div class="col py-3">
+                    <nav class="navbar navbar-light bg-light">
+                        <div class="container">
+                   
+                          <h1>Global Electronic Dashboard</h1>
+                            
+                        </div>
+                    </nav>
+                    <nav class="navbar navbar-light bg-light shadow-lg p-3 mb-5 bg-white rounded">
+                        <div>
+                            <h2>Revenue by Store Locations</h2>
+                            <p>Visualizations showing revenue by store locations and top and bottom five stores.</p>
+                        </div>  
+                        <div class="dropdownCol">             
+                            <div id="select1">
+                                <label for="store-country-select">Location:&nbsp </label>
+                                <select id="store-country-select"></select>
+                            </div>
+                           
+                            <div id="select1">
+                                <label for="store-time-select">Year:&nbsp </label>
+                                <select id="store-time-select"></select>
+                            </div>
+                        </div> 
+                    </nav>
+                    <div id="question1">
+                    <div class="row">
+                        <div class="col-md-6 ">
+                            <div class="chart shadow-lg p-3 mb-5 bg-white rounded" id="stacked-bar-chart">
+                                <div id="stackedBarChart"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 shadow-lg p-3 mb-5 bg-white rounded">
+                            <div id="topStore" class="table">
+                                <!-- Top Product Table will be dynamically filled -->
+                            </div>
+                            <div id="lossStore" class="table">
+                                <!-- Loss Product Table will be dynamically filled -->
+                            </div>
+                        </div>
+                    </div>
+           
+           
+                </div>
+           
+           
+            </div>
+    </div>
+  
+            
+
+</body>
+    <script type="text/javascript"src="static/main.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script src="js/leaflet.extra-markers.min.js"></script>
+    <!-- polyfill.io is the library for using newer JavaScript features (such as Object.assign) in older browers. -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+    <!-- MomentJS -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+    <!-- Leaflet JavaScript code -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-extra-markers/dist/js/leaflet.extra-markers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Marker cluster JavaScript code -->
+    <script type="text/javascript" src="https://unpkg.com/leaflet.markercluster@1.0.3/dist/leaflet.markercluster.js"></script>
+</html>

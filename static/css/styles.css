@@ -258,8 +258,9 @@ canvas {
 .gg1 p{
     text-align: center;
     margin: auto;
-    color:white;
+    color:rgb(9, 9, 9);
     font-size: 16px;
+    font-weight: bolder;
 }
 
 .gg2{
@@ -273,7 +274,7 @@ div.gigi1 {
 }
 
 div#gigi{
-    width: 590px; 
+    width: 620px; 
    margin-left: 400px;
 }
 
@@ -293,6 +294,9 @@ div#gigi{
 
   .navbar .container h1{
     margin: auto;
+  }
+  nav.navbar {
+    align-items: block;
   }
   .navbar .dropdownCol{
     display: flex;
@@ -327,14 +331,48 @@ div#suad.chart{
     
 }
 
+div#yearSelector{
+    display: flex;
+    color:white;
+}
+
+div#boxPlotYearSelector{
+    display: flex;
+    color:white;
+}
+
+
 div.col-md-6{
     height: 650px;
 }
 
-  /* .dropdown{
-    margin-bottom: 0;
-    margin-top: 0;
-  } */
+  /* Harshh's */
+
+div.harshh{
+    width: 100%;
+}
+div#harshh-input{
+    padding-top: 20px;
+    width: 450px;
+}
+
+#suggestions {
+    border: 1px solid #151b53;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    background-color: rgb(219, 135, 219);
+    z-index: 1000;
+}
+
+#suggestions div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#suggestions div:hover {
+    background-color: #8d8888;
+}
 
 @media (max-width: 768px) {
     /* Adjust styles for smaller screens */
