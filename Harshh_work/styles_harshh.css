@@ -1,0 +1,19 @@
+/* Harshh's */
+
+#suggestions {
+    border: 1px solid #151b53;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    background-color: rgb(219, 135, 219);
+    z-index: 1000;
+}
+
+#suggestions div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#suggestions div:hover {
+    background-color: #8d8888;
+}
