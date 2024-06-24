@@ -1,5 +1,6 @@
 # Project3_Team7
 
+<<<<<<< HEAD
 # Global Electronic Sales Data Analysis
 
 This repository contains the code and documentation for various analyses performed on sales data. The analyses are divided into different tasks handled by specific team members, each focusing on distinct aspects of the data to provide comprehensive insights.
@@ -136,3 +137,5 @@ https://getbootstrap.com
 https://fontawesome.com
 
 https://unsplash.com/photos/pen-on-paper-6EnTPvPPL6I
+=======
+>>>>>>> main
