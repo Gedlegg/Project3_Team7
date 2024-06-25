@@ -73,61 +73,6 @@ def product_distribution():
              'subcategory': row['subcategory']} for row in result]
     
     return jsonify(data)
-# @app.route('/api/product_distribution')
-# def product_distribution():
-#     year = request.args.get('year')
-#     state = request.args.get('state')
-    
-#     query = """
-#     SELECT p.category, p.subcategory, c.state, strftime('%Y', s.order_date) as year, 
-#            strftime('%m', s.order_date) as month, 
-#            SUM(s.quantity * p.unit_cost_usd) as total_cost, 
-#            SUM(s.quantity * p.unit_price_usd) as total_revenue, 
-#            SUM(s.quantity * p.unit_price_usd) - SUM(s.quantity * p.unit_cost_usd) as profit
-#     FROM sales s
-#     JOIN products p ON s.product_id = p.product_id
-#     JOIN customers c ON s.customer_id = c.customer_id
-#     WHERE (? IS NULL OR strftime('%Y', s.order_date) = ?)
-#       AND (? IS NULL OR c.state = ?)
-#     GROUP BY p.category, p.subcategory
-#     ORDER BY total_revenue DESC
-#     LIMIT 10
-#     """
-    
-#     result = query_db(query, (year, year, state, state))
-#     data = [{'category': row['category'],
-#              'subcategory': row['subcategory'],
-#              'state': row['state'],
-#              'year': row['year'],
-#              'month': row['month'],
-#              'total_cost': '${:,.0f}'.format(row['total_cost']),
-#              'total_revenue': '${:,.0f}'.format(row['total_revenue']),
-#              'profit': '${:,.0f}'.format(row['profit'])} for row in result]
-#     return jsonify(data)
-# @app.route('/api/product_distribution')
-# def product_distribution():
-#     query = """
-#     SELECT p.category, p.subcategory, c.state, strftime('%Y', s.order_date) as year, strftime('%m', s.order_date) as month, 
-#            SUM(s.quantity * p.unit_cost_usd) as total_cost, 
-#            SUM(s.quantity * p.unit_price_usd) as total_revenue, 
-#            SUM(s.quantity * p.unit_price_usd) - SUM(s.quantity * p.unit_cost_usd) as profit
-#     FROM sales s
-#     JOIN products p ON s.product_id = p.product_id
-#     JOIN customers c ON s.customer_id = c.customer_id
-#     GROUP BY p.category, p.subcategory, year, month
-#     """
-    
-#     # Execute the query using query_db function
-#     result = query_db(query)
-#     data = [{'category': row['category'],
-#              'subcategory': row['subcategory'],
-#              'state': row['state'],
-#              'year': row['year'],
-#              'month': row['month'],
-#              'total_cost': '${:,.0f}'.format(row['total_cost']),
-#              'total_revenue': '${:,.0f}'.format(row['total_revenue']),
-#              'profit': '${:,.0f}'.format(row['profit'])} for row in result]
-#     return jsonify(data)
 
 # Customer Locations Map
 @app.route('/api/customer_locations')
@@ -482,7 +427,6 @@ def delivery_time_scatter():
 
 # Bar Chart for AOV Comparison
 # Count Comparison Route
-<<<<<<< HEAD
 @app.route('/api/aov_comparison_count/<year>')
 def aov_comparison_count(year):
     if year == 'all':
@@ -510,21 +454,6 @@ def aov_comparison_count(year):
         WHERE strftime('%Y', order_date) = '{year}'
         GROUP BY sale_type, order_date
         """
-=======
-@app.route('/api/aov_comparison_count')
-def aov_comparison_count():
-    query = """
-    SELECT 
-        CASE 
-            WHEN delivery_date IS NULL THEN 'in_store' 
-            ELSE 'online' 
-        END as sale_type,
-        COUNT(sales.order_date) as order_count
-    FROM sales
-    JOIN products ON sales.product_id = products.product_id
-    GROUP BY sale_type, order_date
-    """
->>>>>>> main
     result = query_db(query)
     
     # Convert result to DataFrame
@@ -534,7 +463,6 @@ def aov_comparison_count():
     online_counts = sales[sales['sale_type'] == 'online']['order_count'].tolist()
     in_store_counts = sales[sales['sale_type'] == 'in_store']['order_count'].tolist()
     
-    # Calculate averages
     data = {
         'online': online_counts,
         'in_store': in_store_counts
@@ -546,54 +474,6 @@ def aov_comparison_count():
 # Revenue Comparison Route
 @app.route('/api/aov_comparison_revenue')
 def aov_comparison_revenue():
-<<<<<<< HEAD
-=======
-    query = """
-    SELECT 
-        CASE 
-            WHEN delivery_date IS NULL THEN 'in_store' 
-            ELSE 'online' 
-        END as sale_type,
-        strftime('%Y', sales.order_date) as year,
-        SUM(quantity * unit_price_usd) as total_revenue
-    FROM sales
-    JOIN products ON sales.product_id = products.product_id
-    GROUP BY sale_type, year
-    """
-    result = query_db(query)
-    
-    # Convert result to DataFrame
-    sales = pd.DataFrame(result, columns=['sale_type', 'year', 'total_revenue'])
-    
-    # Group by year and sale_type
-    grouped_sales = sales.groupby(['year', 'sale_type']).agg({'total_revenue': 'sum'}).reset_index()
-
-    # Separate data for online and in-store
-    online_data = grouped_sales[grouped_sales['sale_type'] == 'online'].set_index('year')['total_revenue'].tolist()
-    in_store_data = grouped_sales[grouped_sales['sale_type'] == 'in_store'].set_index('year')['total_revenue'].tolist()
-
-    # Calculate averages
-    online_avg = grouped_sales[grouped_sales['sale_type'] == 'online']['total_revenue'].mean()
-    in_store_avg = grouped_sales[grouped_sales['sale_type'] == 'in_store']['total_revenue'].mean()
-
-    # Convert NaN to None for averages
-    online_avg = online_avg if not np.isnan(online_avg) else None
-    in_store_avg = in_store_avg if not np.isnan(in_store_avg) else None
-
-    # Prepare data dictionary
-    data = {
-        'years': grouped_sales['year'].unique().tolist(),
-        'online': online_data,
-        'in_store': in_store_data,
-        'online_avg': online_avg,
-        'in_store_avg': in_store_avg
-    }
-    
-    return jsonify(data)
-# Violin Plot for AOV Comparison
-@app.route('/api/aov_violin_comparison')
-def aov_violin_comparison():
->>>>>>> main
     query = """
     SELECT 
         CASE 
@@ -716,62 +596,6 @@ def harshh1():
 @app.route('/harshh2')
 def harshh2():  
     return render_template("harshh2.html")
-@app.route('/suadg1')
-def suadg1():  
-    return render_template("suadg1.html")
-@app.route('/cover')
-def cover():  
-    return render_template("cover.html")
-@app.route('/api')
-def api():  
-    return render_template("api.html")
-
-
-@app.route('/product')
-def product():  
-    return render_template("product.html")
-
-@app.route('/revenue')
-def revenue():  
-    return render_template("revenue.html")
-
-@app.route('/delivery')
-def delivery():  
-    return render_template("delivery.html")
-
-@app.route('/order')
-def order():  
-    return render_template("order.html")
-
-@app.route('/gg1')
-def gg1():  
-    return render_template("gg1.html")
-
-@app.route('/gg3')
-def gg3():  
-    return render_template("gg3.html")
-
-@app.route('/gg2')
-def gg2():  
-    return render_template("gg2.html")
-@app.route('/suad1')
-def suad1():  
-    return render_template("suad1.html")
-@app.route('/suad2')
-def suad2():  
-    return render_template("suad2.html")
-@app.route('/suad3')
-def suad3():  
-    return render_template("suad3.html")
-@app.route('/willy1')
-def willy1():  
-    return render_template("willy1.html")
-@app.route('/willy2')
-def willy2():  
-    return render_template("willy2.html")
-@app.route('/willy3')
-def willy3():  
-    return render_template("willy3.html")
 @app.route('/suadg1')
 def suadg1():  
     return render_template("suadg1.html")
